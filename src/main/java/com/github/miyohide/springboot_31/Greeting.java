@@ -3,17 +3,17 @@ package com.github.miyohide.springboot_31;
 import java.util.Date;
 
 public class Greeting {
-  private final long id;
+  private final String id;
   private final String content;
-  private final Date createdAt;
+  private final long createdAt;
 
-  public Greeting(long id, String content, Date createdAt) {
+  public Greeting(String id, String content, long createdAt) {
     this.id = id;
     this.content = content;
     this.createdAt = createdAt;
   }
 
-  public long getId() {
+  public String getId() {
     return id;
   }
 
@@ -21,7 +21,7 @@ public class Greeting {
     return content;
   }
 
-  public Date getCreatedAt() {
+  public long getCreatedAt() {
     return createdAt;
   }
 }
