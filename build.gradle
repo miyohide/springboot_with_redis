@@ -31,3 +31,9 @@ tasks.named('bootBuildImage') {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+spotless {
+    java {
+        googleJavaFormat()
+    }
+}
