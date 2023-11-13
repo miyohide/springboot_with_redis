@@ -1,7 +1,5 @@
 package com.github.miyohide.springboot_31;
 
-import java.util.Date;
-
 public class Greeting {
   private final String id;
   private final String content;

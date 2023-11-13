@@ -22,7 +22,10 @@ public class GreetingController {
     if (httpSession.isNew()) {
       httpSession.setAttribute("name", name);
     }
-    return new Greeting(httpSession.getId(), (String) httpSession.getAttribute("name"), httpSession.getCreationTime());
+    return new Greeting(
+        httpSession.getId(),
+        (String) httpSession.getAttribute("name"),
+        httpSession.getCreationTime());
   }
 
   @GetMapping("/goodbye")
