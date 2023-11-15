@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class GreetingController {
-  private HttpSession httpSession;
+  private final HttpSession httpSession;
   private static final Logger logger = LoggerFactory.getLogger(GreetingController.class);
 
   public GreetingController(HttpSession httpSession) {
