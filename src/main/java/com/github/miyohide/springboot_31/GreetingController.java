@@ -40,9 +40,8 @@ public class GreetingController {
   public String viewSession() {
     Set<String> redisKeys = redisTemplate.keys("*");
     List<String> keysList = new ArrayList<>();
-    Iterator<String> it = redisKeys.iterator();
-    while (it.hasNext()) {
-      keysList.add(it.next());
+    for (String redisKey : redisKeys) {
+      keysList.add(redisKey);
     }
     return keysList.toString();
   }
