@@ -35,9 +35,14 @@ public class GreetingController {
         httpSession.getCreationTime());
   }
 
+  /**
+   * viewSession はRedisに格納された全てのspring sessionのkeyを取り出し、
+   * それぞれの値を表示する
+   * @return Redisに格納された全てのspring sessionのKeyの文字列表現
+   */
   @GetMapping("/view")
   public String viewSession() {
-    Set<String> redisKeys = redisTemplate.keys("*");
+    Set<String> redisKeys = redisTemplate.keys("spring:session:sessions:*");
     List<String> keysList = new ArrayList<>();
     for (String redisKey : redisKeys) {
       keysList.add(redisKey);
