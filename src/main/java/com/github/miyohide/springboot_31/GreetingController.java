@@ -22,6 +22,12 @@ public class GreetingController {
     this.redisTemplate = redisTemplate;
   }
 
+  /**
+   * greeting はセッションに"name"クエリパラメータの値を格納し、Greetingオブジェクトを返す
+   *
+   * @param name クエリパラメータの値。指定がない場合はデフォルト値としてWorldが格納される
+   * @return nameクエリパラメータを指定したGreetingインスタンス
+   */
   @GetMapping("/")
   public Greeting greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
     logger.info("HTTP Session id = [" + httpSession.getId() + "]");
@@ -49,6 +55,11 @@ public class GreetingController {
     return keysList.toString();
   }
 
+  /**
+   * goodbye は格納されているセッションを消す
+   *
+   * @return セッションを消したことを表現した文字列
+   */
   @GetMapping("/goodbye")
   public String goodbye() {
     String httpSessionId = httpSession.getId();
