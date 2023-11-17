@@ -1,16 +1,15 @@
 package com.github.miyohide.springboot_31;
 
 import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 @RestController
 public class GreetingController {
@@ -36,8 +35,8 @@ public class GreetingController {
   }
 
   /**
-   * viewSession はRedisに格納された全てのspring sessionのkeyを取り出し、
-   * それぞれの値を表示する
+   * viewSession はRedisに格納された全てのspring sessionのkeyを取り出し、 それぞれの値を表示する
+   *
    * @return Redisに格納された全てのspring sessionのKeyの文字列表現
    */
   @GetMapping("/view")
