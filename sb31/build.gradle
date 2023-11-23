@@ -23,6 +23,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.session:spring-session-data-redis'
+    implementation 'io.netty:netty-transport-native-epoll:4.1.101.Final'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
