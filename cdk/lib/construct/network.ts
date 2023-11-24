@@ -13,11 +13,13 @@ export class Network extends Construct {
             cidr: '10.0.0.0/16',
             maxAzs: 2,
             subnetConfiguration: [
+                // Redis用のサブネット
                 {
                     cidrMask: 24,
-                    name: 'myapp-Isolated',
-                    subnetType: ec2.SubnetType.PRIVATE_ISOLATED,
+                    name: 'myapp-cache',
+                    subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
                 },
+                // AppRunner用のサブネット
                 {
                     cidrMask: 24,
                     name: 'myapp-Public',
