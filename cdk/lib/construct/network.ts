@@ -3,8 +3,8 @@ import * as ec2 from 'aws-cdk-lib/aws-ec2';
 
 export class Network extends Construct {
     readonly vpc: ec2.Vpc;
-    readonly appRunnerSecurityGroup: ec2.SecurityGroup;
 
+    // VPCとサブネットを作る
     constructor(scope: Construct, id: string) {
         super(scope, id);
 
@@ -25,6 +25,6 @@ export class Network extends Construct {
                 }
             ],
             natGateways: 1,
-        })
+        });
     }
 }
