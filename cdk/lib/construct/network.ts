@@ -3,6 +3,8 @@ import * as ec2 from 'aws-cdk-lib/aws-ec2';
 
 export class Network extends Construct {
     readonly vpc: ec2.Vpc;
+    readonly appRunnerSecurityGroup: ec2.SecurityGroup;
+    readonly cacheSecurityGroup: ec2.SecurityGroup;
 
     // VPCとサブネットを作る
     constructor(scope: Construct, id: string) {
@@ -28,5 +30,22 @@ export class Network extends Construct {
             ],
             natGateways: 1,
         });
+
+        // App Runnerに設定するセキュリティグループ
+        this.appRunnerSecurityGroup = new ec2.SecurityGroup(scope, 'AppRunnerSecurityGroup', {
+            vpc: this.vpc,
+            description: 'for myapp-app-runner',
+            securityGroupName: 'myapp-app-runner-sg'
+        });
+
+        //Cacheに設定するセキュリティグループ
+        this.cacheSecurityGroup = new ec2.SecurityGroup(scope, 'CacheSecurityGroup', {
+            vpc: this.vpc,
+            description: 'for myapp-cache',
+            securityGroupName: 'myapp-cache-sg'
+        });
+
+        // App RunnerセキュリティグループからCacheセキュリティグループへのポート6379を許可
+        this.cacheSecurityGroup.addIngressRule(this.appRunnerSecurityGroup, ec2.Port.tcp(6379));
     }
 }
