@@ -28,7 +28,7 @@ export class Network extends Construct {
                     subnetType: ec2.SubnetType.PUBLIC,
                 }
             ],
-            natGateways: 1,
+            natGateways: 0,
         });
 
         // App Runnerに設定するセキュリティグループ
