@@ -9,11 +9,15 @@ import io.netty.channel.epoll.EpollChannelOption;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.session.data.redis.config.ConfigureRedisAction;
 
 @SpringBootTest
 public class MyRedisConfigTest {
+  @Autowired private ApplicationContext context;
+
   @Autowired private LettuceConnectionFactory lettuceConnectionFactory;
 
   @Autowired private RedisTemplate<String, String> redisTemplate;
@@ -31,5 +35,11 @@ public class MyRedisConfigTest {
     clientResources.nettyCustomizer().afterBootstrapInitialized(bootstrap);
     String tcpUserTimeout = bootstrap.config().options().get(EpollChannelOption.TCP_USER_TIMEOUT).toString();
     assertEquals("123452", tcpUserTimeout);
+  }
+
+  @Test
+  public void testConfigureRedisActionBean() {
+    ConfigureRedisAction configureRedisAction = context.getBean(ConfigureRedisAction.class);
+    assertEquals(ConfigureRedisAction.NO_OP, configureRedisAction);
   }
 }
