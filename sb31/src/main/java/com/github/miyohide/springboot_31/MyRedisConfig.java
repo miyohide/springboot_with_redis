@@ -9,7 +9,6 @@ import io.netty.channel.epoll.EpollChannelOption;
 import org.springframework.boot.autoconfigure.data.redis.LettuceClientConfigurationBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.session.data.redis.config.ConfigureRedisAction;
 
 @Configuration
 public class MyRedisConfig {
@@ -32,9 +31,4 @@ public class MyRedisConfig {
       clientConfigurationBuilder.clientResources(clientResources);
     };
   }
-
-//  @Bean
-//  public ConfigureRedisAction configureRedisAction() {
-//    return ConfigureRedisAction.NO_OP;
-//  }
 }
