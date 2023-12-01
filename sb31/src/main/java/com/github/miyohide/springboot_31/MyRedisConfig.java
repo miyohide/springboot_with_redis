@@ -12,6 +12,11 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class MyRedisConfig {
+  private MyTCPConfigProperties myTCPConfigProperties;
+
+  MyRedisConfig(MyTCPConfigProperties myTCPConfigProperties) {
+    this.myTCPConfigProperties = myTCPConfigProperties;
+  }
   @Bean
   public LettuceClientConfigurationBuilderCustomizer lettuceClientConfigurationBuilderCustomizer() {
     ClientResources clientResources =
@@ -20,7 +25,7 @@ public class MyRedisConfig {
                 new NettyCustomizer() {
                   @Override
                   public void afterBootstrapInitialized(Bootstrap bootstrap) {
-                    bootstrap.option(EpollChannelOption.TCP_USER_TIMEOUT, 123452);
+                    bootstrap.option(EpollChannelOption.TCP_USER_TIMEOUT, myTCPConfigProperties.getTcp_user_timeout());
                   }
                 })
             .build();
