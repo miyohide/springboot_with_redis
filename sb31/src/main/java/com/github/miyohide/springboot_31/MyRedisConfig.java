@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class MyRedisConfig {
-  private MyTCPConfigProperties myTCPConfigProperties;
+  private final MyTCPConfigProperties myTCPConfigProperties;
 
   MyRedisConfig(MyTCPConfigProperties myTCPConfigProperties) {
     this.myTCPConfigProperties = myTCPConfigProperties;
