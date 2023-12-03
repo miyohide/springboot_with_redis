@@ -29,13 +29,15 @@ public class MyRedisConfigTest {
     assertNotNull(lettuceConnectionFactory, "LettuceConnectionFactory is null");
     assertNotNull(redisTemplate, "RedisTemplate is null");
 
-    ClientOptions clientOptions = lettuceConnectionFactory.getClientConfiguration().getClientOptions().get();
+    ClientOptions clientOptions =
+        lettuceConnectionFactory.getClientConfiguration().getClientOptions().get();
     ClientResources clientResources = lettuceConnectionFactory.getClientResources();
     assertTrue(clientOptions.getSocketOptions().isKeepAlive());
 
     Bootstrap bootstrap = new Bootstrap();
     clientResources.nettyCustomizer().afterBootstrapInitialized(bootstrap);
-    String tcpUserTimeout = bootstrap.config().options().get(EpollChannelOption.TCP_USER_TIMEOUT).toString();
+    String tcpUserTimeout =
+        bootstrap.config().options().get(EpollChannelOption.TCP_USER_TIMEOUT).toString();
     assertEquals("123452", tcpUserTimeout);
   }
 

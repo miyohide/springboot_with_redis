@@ -19,6 +19,7 @@ public class MyRedisConfig {
   MyRedisConfig(MyTCPConfigProperties myTCPConfigProperties) {
     this.myTCPConfigProperties = myTCPConfigProperties;
   }
+
   @Bean
   public LettuceClientConfigurationBuilderCustomizer lettuceClientConfigurationBuilderCustomizer() {
     ClientResources clientResources =
@@ -27,7 +28,9 @@ public class MyRedisConfig {
                 new NettyCustomizer() {
                   @Override
                   public void afterBootstrapInitialized(Bootstrap bootstrap) {
-                    bootstrap.option(EpollChannelOption.TCP_USER_TIMEOUT, myTCPConfigProperties.getTcp_user_timeout());
+                    bootstrap.option(
+                        EpollChannelOption.TCP_USER_TIMEOUT,
+                        myTCPConfigProperties.getTcp_user_timeout());
                   }
                 })
             .build();
