@@ -1,8 +1,10 @@
 package com.github.miyohide.springboot_31;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+@Profile("my-redis-config")
 @Component
 @ConfigurationProperties(prefix = "my-tcp-config")
 public class MyTCPConfigProperties {

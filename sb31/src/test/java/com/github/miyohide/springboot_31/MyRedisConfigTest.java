@@ -13,7 +13,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.session.data.redis.config.ConfigureRedisAction;
+import org.springframework.test.context.ActiveProfiles;
 
+@ActiveProfiles("my-redis-config")
 @SpringBootTest
 public class MyRedisConfigTest {
   @Autowired private ApplicationContext context;
