@@ -45,7 +45,10 @@ export class Network extends Construct {
             securityGroupName: 'myapp-cache-sg'
         });
 
-        // App RunnerセキュリティグループからCacheセキュリティグループへのポート6379を許可
+        // AppRunnerセキュリティグループからCacheセキュリティグループへのポート6379を許可
+        this.appRunnerSecurityGroup.addEgressRule(this.cacheSecurityGroup, ec2.Port.tcp(6379));
+
+        // CacheセキュリティグループにてAppRunnerセキュリティグループからポート6379の通信を許可
         this.cacheSecurityGroup.addIngressRule(this.appRunnerSecurityGroup, ec2.Port.tcp(6379));
     }
 }
