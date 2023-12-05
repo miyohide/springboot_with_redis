@@ -9,15 +9,14 @@ interface AppRunnerProps {
     vpc: ec2.Vpc,
     repository: ecr.Repository,
     appRunnerSecurityGroup: ec2.SecurityGroup,
-    // cacheCluster: elasticache.CfnCacheCluster,
+    cacheCluster: elasticache.CfnCacheCluster,
 }
 
 export class AppRunner extends Construct {
     constructor(scope: Construct, id: string, props: AppRunnerProps) {
         super(scope, id);
 
-        // const { vpc, repository, appRunnerSecurityGroup, cacheCluster } = props;
-        const { vpc, repository, appRunnerSecurityGroup } = props;
+        const { vpc, repository, appRunnerSecurityGroup, cacheCluster } = props;
 
         // Roleの作成（ECRに接続するため）
         const accessRole = new iam.Role(scope, 'AppRunnerAccessRole', {
@@ -30,12 +29,12 @@ export class AppRunner extends Construct {
         );
 
         // VPC Connectorの作成
-        // const vpcConnector = new apprunner.CfnVpcConnector(scope, 'MyAppVPCConnector', {
-        //     subnets: vpc.selectSubnets({
-        //         subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS
-        //     }).subnetIds,
-        //     securityGroups: [appRunnerSecurityGroup.securityGroupId]
-        // })
+        const vpcConnector = new apprunner.CfnVpcConnector(scope, 'MyAppVPCConnector', {
+            subnets: vpc.selectSubnets({
+                subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS
+            }).subnetIds,
+            securityGroups: [appRunnerSecurityGroup.securityGroupId]
+        })
 
         const service = new apprunner.CfnService(this, 'AppRunnerService', {
             sourceConfiguration: {
@@ -48,25 +47,25 @@ export class AppRunner extends Construct {
                     imageRepositoryType: 'ECR',
                     imageConfiguration: {
                         port: '8080',
-                        // runtimeEnvironmentVariables: [
-                        //     {
-                        //         name: 'REDIS_HOST',
-                        //         value: cacheCluster.attrRedisEndpointAddress
-                        //     },
-                        //     {
-                        //         name: 'REDIS_PORT',
-                        //         value: cacheCluster.attrRedisEndpointPort
-                        //     },
-                        // ],
+                        runtimeEnvironmentVariables: [
+                            {
+                                name: 'REDIS_HOST',
+                                value: cacheCluster.attrRedisEndpointAddress
+                            },
+                            {
+                                name: 'REDIS_PORT',
+                                value: cacheCluster.attrRedisEndpointPort
+                            },
+                        ],
                     },
                 },
             },
-            // networkConfiguration: {
-            //     egressConfiguration: {
-            //         egressType: 'VPC',
-            //         vpcConnectorArn: vpcConnector.attrVpcConnectorArn,
-            //     },
-            // },
+            networkConfiguration: {
+                egressConfiguration: {
+                    egressType: 'VPC',
+                    vpcConnectorArn: vpcConnector.attrVpcConnectorArn,
+                },
+            },
         });
     }
 }

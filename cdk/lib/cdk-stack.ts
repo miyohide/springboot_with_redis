@@ -16,10 +16,9 @@ export class CdkStack extends cdk.Stack {
     const { repository } = new EcrRepository(this, 'Ecr');
 
     // Cacheを作成する
-    // const { cacheCluster } = new Cache(this, 'ElastiCache', { vpc, cacheSecurityGroup });
+    const { cacheCluster } = new Cache(this, 'ElastiCache', { vpc, cacheSecurityGroup });
 
     // App Runnerを作成する
-    // new AppRunner(this, 'AppRunner', { vpc, repository, appRunnerSecurityGroup, cacheCluster });
-    new AppRunner(this, 'AppRunner', { vpc, repository, appRunnerSecurityGroup });
+    new AppRunner(this, 'AppRunner', { vpc, repository, appRunnerSecurityGroup, cacheCluster });
   }
 }
