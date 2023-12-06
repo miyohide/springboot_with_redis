@@ -1,15 +1,15 @@
-import * as apprunner from 'aws-cdk-lib/aws-apprunner';
-import * as iam from 'aws-cdk-lib/aws-iam';
-import * as ecr from 'aws-cdk-lib/aws-ecr';
-import * as ec2 from 'aws-cdk-lib/aws-ec2';
-import * as elasticache from 'aws-cdk-lib/aws-elasticache';
 import { Construct } from "constructs";
+import { SecurityGroup, SubnetType, Vpc } from 'aws-cdk-lib/aws-ec2';
+import { Repository } from 'aws-cdk-lib/aws-ecr';
+import { CfnCacheCluster } from 'aws-cdk-lib/aws-elasticache';
+import { ManagedPolicy, Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
+import { CfnService, CfnVpcConnector } from "aws-cdk-lib/aws-apprunner";
 
 interface AppRunnerProps {
-    vpc: ec2.Vpc,
-    repository: ecr.Repository,
-    appRunnerSecurityGroup: ec2.SecurityGroup,
-    cacheCluster: elasticache.CfnCacheCluster,
+    vpc: Vpc,
+    repository: Repository,
+    appRunnerSecurityGroup: SecurityGroup,
+    cacheCluster: CfnCacheCluster,
 }
 
 export class AppRunner extends Construct {
@@ -19,24 +19,24 @@ export class AppRunner extends Construct {
         const { vpc, repository, appRunnerSecurityGroup, cacheCluster } = props;
 
         // Roleの作成（ECRに接続するため）
-        const accessRole = new iam.Role(scope, 'AppRunnerAccessRole', {
+        const accessRole = new Role(scope, 'AppRunnerAccessRole', {
             roleName: 'myapp-AppRunnerAccessRole',
-            assumedBy: new iam.ServicePrincipal('build.apprunner.amazonaws.com'),
+            assumedBy: new ServicePrincipal('build.apprunner.amazonaws.com'),
         });
 
         accessRole.addManagedPolicy(
-            iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSAppRunnerServicePolicyForECRAccess'),
+            ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSAppRunnerServicePolicyForECRAccess'),
         );
 
         // VPC Connectorの作成
-        const vpcConnector = new apprunner.CfnVpcConnector(scope, 'MyAppVPCConnector', {
+        const vpcConnector = new CfnVpcConnector(scope, 'MyAppVPCConnector', {
             subnets: vpc.selectSubnets({
-                subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS
+                subnetType: SubnetType.PRIVATE_WITH_EGRESS
             }).subnetIds,
             securityGroups: [appRunnerSecurityGroup.securityGroupId]
         })
 
-        const service = new apprunner.CfnService(this, 'AppRunnerService', {
+        const service = new CfnService(this, 'AppRunnerService', {
             sourceConfiguration: {
                 authenticationConfiguration: {
                     accessRoleArn: accessRole.roleArn,

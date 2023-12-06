@@ -1,26 +1,26 @@
-import * as ec2 from 'aws-cdk-lib/aws-ec2';
-import * as elasticache from 'aws-cdk-lib/aws-elasticache';
+import { SecurityGroup, SubnetType, Vpc } from 'aws-cdk-lib/aws-ec2';
+import { CfnCacheCluster, CfnSubnetGroup } from 'aws-cdk-lib/aws-elasticache';
 import { Construct } from 'constructs';
 
 interface CacheProps {
-    vpc: ec2.Vpc
-    cacheSecurityGroup: ec2.SecurityGroup
+    vpc: Vpc
+    cacheSecurityGroup: SecurityGroup
 }
 
 export class Cache extends Construct {
-    readonly cacheCluster: elasticache.CfnCacheCluster;
+    readonly cacheCluster: CfnCacheCluster;
 
     constructor(scope: Construct, id: string, props: CacheProps) {
         super(scope, id);
 
         const { vpc, cacheSecurityGroup } = props;
 
-        const cacheSubnetGroup =  new elasticache.CfnSubnetGroup(this, "CacheSubnetGroup", {
-            subnetIds: vpc.selectSubnets({ subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS }).subnetIds,
+        const cacheSubnetGroup =  new CfnSubnetGroup(this, "CacheSubnetGroup", {
+            subnetIds: vpc.selectSubnets({ subnetType: SubnetType.PRIVATE_WITH_EGRESS }).subnetIds,
             description: "Group of subnets to place Cache into",
         });
 
-        this.cacheCluster = new elasticache.CfnCacheCluster(this, "CacheCluster", {
+        this.cacheCluster = new CfnCacheCluster(this, "CacheCluster", {
             engine: "redis",
             cacheNodeType: "cache.t3.micro",
             numCacheNodes: 1,
