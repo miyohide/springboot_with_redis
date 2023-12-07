@@ -12,7 +12,7 @@ export class Network extends Construct {
 
     this.vpc = new Vpc(scope, 'VPC', {
       vpcName: 'myapp-vpc',
-      cidr: '10.0.0.0/16',
+      ipAddresses: IpAddresses.cidr('10.0.0.0/16'),
       maxAzs: 2,
       subnetConfiguration: [
         // Redis用のサブネット
