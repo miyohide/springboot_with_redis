@@ -1,5 +1,5 @@
 import { Construct } from 'constructs';
-import { Port, SecurityGroup, SubnetType, Vpc } from 'aws-cdk-lib/aws-ec2';
+import { IpAddresses, Port, SecurityGroup, SubnetType, Vpc } from 'aws-cdk-lib/aws-ec2';
 
 export class Network extends Construct {
   readonly vpc: Vpc;
@@ -15,17 +15,17 @@ export class Network extends Construct {
       ipAddresses: IpAddresses.cidr('10.0.0.0/16'),
       maxAzs: 2,
       subnetConfiguration: [
-        // Redis用のサブネット
-        {
-          cidrMask: 24,
-          name: 'myapp-cache',
-          subnetType: SubnetType.PRIVATE_WITH_EGRESS,
-        },
         // AppRunner用のサブネット
         {
           cidrMask: 24,
           name: 'myapp-Public',
           subnetType: SubnetType.PUBLIC,
+        },
+        // Redis用のサブネット
+        {
+          cidrMask: 24,
+          name: 'myapp-cache',
+          subnetType: SubnetType.PRIVATE_WITH_EGRESS,
         },
       ],
       natGateways: 0,
@@ -37,6 +37,7 @@ export class Network extends Construct {
       'AppRunnerSecurityGroup',
       {
         vpc: this.vpc,
+        allowAllOutbound: false,
         description: 'for myapp-app-runner',
         securityGroupName: 'myapp-app-runner-sg',
       },
