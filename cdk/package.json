@@ -10,8 +10,8 @@
     "test": "jest",
     "cdk": "cdk",
     "prettier:base": "prettier --parser typescript --single-quote",
-    "prettier:check": "npm run prettier:base -- --list-different \"lib/**/*.{ts,tsx}\"",
-    "prettier:write": "npm run prettier:base -- --write \"lib/**/*.{ts,tsx}\""
+    "prettier:check": "npm run prettier:base -- --list-different \"{lib,test}/**/*.{ts,tsx}\"",
+    "prettier:write": "npm run prettier:base -- --write \"{lib,test}/**/*.{ts,tsx}\""
   },
   "devDependencies": {
     "@types/jest": "^29.5.4",
