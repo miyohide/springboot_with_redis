@@ -43,6 +43,7 @@ test('VPC and Subnets Created', () => {
         GroupName: 'myapp-cache-sg',
     });
 
+    // Security GroupのGroupIdを確認するために、AppRunnerに紐づいているSecurity GroupのIdを取得する
     const sgs = template.findResources('AWS::EC2::SecurityGroup', { Properties: { GroupName: 'myapp-app-runner-sg' }});
     const appRunnerSGId = Object.keys(sgs)[0];
 
