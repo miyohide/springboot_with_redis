@@ -47,7 +47,7 @@ test('VPC and Subnets Created', () => {
     const sgs = template.findResources('AWS::EC2::SecurityGroup', { Properties: { GroupName: 'myapp-app-runner-sg' }});
     const appRunnerSGId = Object.keys(sgs)[0];
 
-    // Secirity Groupの入力設定
+    // Security Groupの入力設定
     template.resourceCountIs('AWS::EC2::SecurityGroupIngress', 1);
     template.hasResourceProperties('AWS::EC2::SecurityGroupIngress', {
         IpProtocol: 'tcp',
