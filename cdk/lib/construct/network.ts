@@ -1,5 +1,11 @@
 import { Construct } from 'constructs';
-import { IpAddresses, Port, SecurityGroup, SubnetType, Vpc } from 'aws-cdk-lib/aws-ec2';
+import {
+  IpAddresses,
+  Port,
+  SecurityGroup,
+  SubnetType,
+  Vpc,
+} from 'aws-cdk-lib/aws-ec2';
 
 export class Network extends Construct {
   readonly vpc: Vpc;
