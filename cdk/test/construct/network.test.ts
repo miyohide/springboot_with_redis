@@ -70,4 +70,11 @@ beforeAll(() => {
       ToPort: 6379,
     });
   });
+
+  test('ECR Repository Created', () => {
+    template.resourceCountIs('AWS::ECR::Repository', 1);
+    template.hasResourceProperties('AWS::ECR::Repository', {
+      RepositoryName: 'myapp-repository'
+    });
+  });
 });
