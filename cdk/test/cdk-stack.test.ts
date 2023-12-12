@@ -1,5 +1,5 @@
 import { App } from 'aws-cdk-lib';
-import { CdkStack } from '../../lib/cdk-stack';
+import { CdkStack } from '../lib/cdk-stack';
 import { Match, Template } from 'aws-cdk-lib/assertions';
 
 describe('test of cdk-stack', () => {
