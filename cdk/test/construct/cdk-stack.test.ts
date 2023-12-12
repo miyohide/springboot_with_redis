@@ -87,7 +87,7 @@ beforeAll(() => {
     template.resourceCountIs('AWS::ElastiCache::SubnetGroup', 1);
   });
 
-  test('VPC and Subnets Created', () => {
+  test('App Runner Created', () => {
     template.resourceCountIs('AWS::AppRunner::Service', 1);
     template.hasResourceProperties('AWS::AppRunner::Service', {
       NetworkConfiguration: Match.objectLike({
