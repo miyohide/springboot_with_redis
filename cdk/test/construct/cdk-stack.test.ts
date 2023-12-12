@@ -1,6 +1,6 @@
 import { App } from 'aws-cdk-lib';
 import { CdkStack } from '../../lib/cdk-stack';
-import { Template } from 'aws-cdk-lib/assertions';
+import { Match, Template } from 'aws-cdk-lib/assertions';
 
 describe('test of cdk-stack', () => {
   let template: Template;
@@ -75,6 +75,26 @@ beforeAll(() => {
     template.resourceCountIs('AWS::ECR::Repository', 1);
     template.hasResourceProperties('AWS::ECR::Repository', {
       RepositoryName: 'myapp-repository'
+    });
+  });
+
+  test('ElastiCache Created', () => {
+    template.resourceCountIs('AWS::ElastiCache::CacheCluster', 1);
+    template.hasResourceProperties('AWS::ElastiCache::CacheCluster', {
+      Engine: 'redis',
+    })
+
+    template.resourceCountIs('AWS::ElastiCache::SubnetGroup', 1);
+  });
+
+  test('VPC and Subnets Created', () => {
+    template.resourceCountIs('AWS::AppRunner::Service', 1);
+    template.hasResourceProperties('AWS::AppRunner::Service', {
+      NetworkConfiguration: Match.objectLike({
+        EgressConfiguration: Match.objectLike({
+          EgressType: 'VPC'
+        }),
+      }),
     });
   });
 });
