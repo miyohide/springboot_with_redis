@@ -2,8 +2,6 @@ import { App } from 'aws-cdk-lib';
 import { CdkStack } from '../../lib/cdk-stack';
 import { Template } from 'aws-cdk-lib/assertions';
 
-// example test. To run these tests, uncomment this file along with the
-// example resource in lib/cdk-stack.ts
 test('VPC and Subnets Created', () => {
   const app = new App();
   const stack = new CdkStack(app, 'MyTestStack');
