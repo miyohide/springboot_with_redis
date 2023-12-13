@@ -1,8 +1,8 @@
 import { Construct } from 'constructs';
-import { Network } from './construct/network';
-import { EcrRepository } from './construct/ecr-repository';
-import { Cache } from './construct/cache';
-import { AppRunner } from './construct/app-runner';
+import { Network } from './constructs/network';
+import { EcrRepository } from './constructs/ecr-repository';
+import { Cache } from './constructs/cache';
+import { AppRunner } from './constructs/app-runner';
 import { Stack, StackProps } from 'aws-cdk-lib';
 
 export class CdkStack extends Stack {
